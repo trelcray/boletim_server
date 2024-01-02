@@ -9,3 +9,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Resultado {
+  id           String     @id @default(uuid())
+  bimestre     Bimestre
+  disciplina   Disciplina
+  nota         Float
+  criadoEm     DateTime   @default(now())
+  atualizadoEm DateTime   @updatedAt
+}
+
+enum Bimestre {
+  PRIMEIRO
+  SEGUNDO
+  TERCEIRO
+  QUARTO
+}
+
+enum Disciplina {
+  Biologia
+  Artes
+  Geografia
+  Sociologia
+}
