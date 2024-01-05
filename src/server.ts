@@ -8,7 +8,7 @@ dotenv.config();
 const app = fastify();
 
 app.register(cors, {
-  origin: ["https://localhost:3000"],
+  origin: ["http://localhost:3000"],
 });
 
 app.register(appRoutes);

@@ -68,21 +68,28 @@ export async function appRoutes(app: FastifyInstance) {
   });
 
   app.get("/results", async () => {
-    const allResults = await prisma.resultado.findMany();
-    return {
-      status: "success",
-      data: allResults,
-    };
+    try {
+      const allResults = await prisma.resultado.findMany();
+      return {
+        status: "success",
+        data: allResults,
+      };
+    } catch (error) {
+      console.error("Erro na requisição:", (error as Error).message);
+      return {
+        status: "error",
+        message: "Erro ao obter os resultados.",
+      };
+    }
   });
 
   app.delete("/result/:id", async (request) => {
     const resultIdParams = z.object({
-      id: z.string().uuid(),
+      id: z.string().uuid("ID inválido!"),
     });
 
-    const { id } = resultIdParams.parse(request.params);
-
     try {
+      const { id } = resultIdParams.parse(request.params);
       const existingResult = await prisma.resultado.findUnique({
         where: { id },
       });
@@ -103,6 +110,14 @@ export async function appRoutes(app: FastifyInstance) {
         message: "Resultado excluído com sucesso.",
       };
     } catch (error) {
+      if (error instanceof z.ZodError && error.errors.length > 0) {
+        const errorMessage = error.errors[0].message;
+        return {
+          status: "error",
+          message: errorMessage,
+        };
+      }
+
       throw new Error((error as Error).message);
     }
   });
