@@ -4,11 +4,11 @@
   "description": "back-end challenge",
   "main": "server.ts",
   "engines": {
-    "node": "19.x"
+    "node": "19.9.0"
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src",
+    "build": "tsc",
     "start": "node dist/server.js",
     "lint": "eslint src --ext .ts --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,js,json,cjs}\"",
@@ -34,7 +34,6 @@
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "prisma": "^5.7.1",
-    "tsup": "^8.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   },
