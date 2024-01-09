@@ -12,19 +12,20 @@ const app = fastify();
 
 app.register(cors, {
   origin: [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
+    "http://localhost:8081",
+    "http://127.0.0.1:8081",
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "https://trelcray-boletim.vercel.app/",
   ],
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
 });
 
+app.register(resultRoutes, { prefix: "/api/v1" });
+
 app.get("/", (request, reply) => {
   /* #swagger.ignore=true*/ reply.redirect("/docs");
 });
-
-app.register(resultRoutes, { prefix: "/api/v1" });
 
 app.register(fastifySwagger, swagger);
 app.register(fastifySwaggerUi, docs);
