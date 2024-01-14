@@ -61,7 +61,7 @@ export const registrationResult = async (
         message: errorMessage,
       });
     }
-
+    console.error("Erro na requisição:", (error as Error).message);
     return reply.code(500).send({
       message: "Erro interno do servidor.",
     });
@@ -80,9 +80,9 @@ export const getAllResults = async (
       data: allResults,
     });
   } catch (error) {
-    reply.log.error("Erro na requisição:", (error as Error).message);
+    console.error("Erro na requisição:", (error as Error).message);
     return reply.code(500).send({
-      message: "Erro interno do servidor.",
+      message: "Erro interno do servidor",
     });
   }
 };
@@ -128,7 +128,7 @@ export const deleteResult = async (
       });
     }
 
-    reply.log.error("Erro na requisição:", (error as Error).message);
+    console.error("Erro na requisição:", (error as Error).message);
 
     return reply.code(500).send({
       status: "error",

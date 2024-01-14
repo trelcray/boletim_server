@@ -11,13 +11,7 @@ dotenv.config();
 const app = fastify();
 
 app.register(cors, {
-  origin: [
-    "http://localhost:8081",
-    "http://127.0.0.1:8081",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://trelcray-boletim.vercel.app/",
-  ],
+  origin: ["*"],
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
 });
 
@@ -30,16 +24,14 @@ app.get("/", (request, reply) => {
 app.register(fastifySwagger, swagger);
 app.register(fastifySwaggerUi, docs);
 
-const port = process.env.PORT ?? 8081;
+const port = process.env.PORT ?? "8081";
 
-const startServer = async () => {
-  try {
-    await app.listen({ port: port as number });
-    console.log("Listening on port: " + port);
-  } catch (error) {
-    app.log.error("Error starting the server:", error);
+const { ADDRESS = "localhost", PORT = port } = process.env;
+
+app.listen({ host: ADDRESS, port: parseInt(PORT, 10) }, (err, address) => {
+  if (err) {
+    console.error(err);
     process.exit(1);
   }
-};
-
-startServer();
+  console.log(`Server listening at ${address}`);
+});
