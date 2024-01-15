@@ -8,9 +8,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && npx prisma generate",
-    "vercel-build": "npm run build && npx prisma migrate deploy",
-    "start": "node dist/server.js",
+    "vercel-build": "npx prisma migrate deploy",
     "lint": "eslint src --ext .ts --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,js,json,cjs}\"",
     "prepare": "husky install",
